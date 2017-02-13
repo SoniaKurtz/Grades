@@ -16,8 +16,8 @@ namespace Grades.Tests
         public void ComputesHigestGrade()
         {
             GradeBook book = new GradeBook();
-            book.AddGrade(10);
-            book.AddGrade(90);
+            book.AddGrades(10);
+            book.AddGrades(90);
 
             GradeStatistics result = book.ComputeStatistics();
             Assert.AreEqual(90, result.HighestGrade);
@@ -27,8 +27,8 @@ namespace Grades.Tests
         public void ComputesLowestGrade()
         {
             GradeBook book = new GradeBook();
-            book.AddGrade(10);
-            book.AddGrade(90);
+            book.AddGrades(10);
+            book.AddGrades(90);
 
             GradeStatistics result = book.ComputeStatistics();
             Assert.AreEqual(10, result.LowestGrade);
@@ -38,9 +38,9 @@ namespace Grades.Tests
         public void ComputesAvarageGrade()
         {
             GradeBook book = new GradeBook();
-            book.AddGrade(91);
-            book.AddGrade(89.5f);
-            book.AddGrade(75);
+            book.AddGrades(91);
+            book.AddGrades(89.5f);
+            book.AddGrades(75);
 
             GradeStatistics result = book.ComputeStatistics();
             Assert.AreEqual(85.16, result.AvareGrade, 0.01);
@@ -50,9 +50,9 @@ namespace Grades.Tests
         public void ComputesLetterGrade()
         {
             GradeBook book = new GradeBook();
-            book.AddGrade(91);
-            book.AddGrade(89.5f);
-            book.AddGrade(75);
+            book.AddGrades(91);
+            book.AddGrades(89.5f);
+            book.AddGrades(75);
             book.WriteGrades(Console.Out);
 
             GradeStatistics result = book.ComputeStatistics();
@@ -63,9 +63,9 @@ namespace Grades.Tests
         public void IsDescriptionGradeNameCorrect()
         {
             GradeBook book = new GradeBook();
-            book.AddGrade(91);
-            book.AddGrade(89.5f);
-            book.AddGrade(75);
+            book.AddGrades(91);
+            book.AddGrades(89.5f);
+            book.AddGrades(75);
 
             GradeStatistics result = book.ComputeStatistics();
             Assert.AreEqual("Good", result.Description);
@@ -79,11 +79,25 @@ namespace Grades.Tests
                 Console.SetOut(sw);
 
                 GradeBook book = new GradeBook();
-                book.AddGrade(91);
+                book.AddGrades(91);
                 book.WriteGrades(Console.Out);
 
                 string expected = string.Format("91{0}", Environment.NewLine);
                 Assert.AreEqual<string>(expected, sw.ToString());
+            }
+
+        }
+
+        [TestMethod]
+        public void TestWriteGradesWithStreamWriter()
+        {
+            using (StreamWriter outputFile = File.CreateText("grades.txt"))
+            {
+                GradeBook book = new GradeBook();
+                book.AddGrades(91);
+                book.WriteGrades(outputFile);
+
+                Assert.IsNotNull(outputFile);
             }
         }
     }
